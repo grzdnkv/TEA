@@ -7,35 +7,34 @@ import java.io.*;
 public class testCBCmode{
 
 	
-	public static void main(String[] args) throws IOException{
+	public void main(int[] key, String filetype, String filename) throws IOException{
 		Random rand = new Random();
-		int[] key = {10,12,13,14};						//instantiating a key
+		//int[] key = {10,12,13,14};						//instantiating a key
 		CBCmode cbc = new CBCmode(key);					//instantiating a TEA class
 		
 		int[] img = new int[2];
 		
 		int IV[] = {rand.nextInt(),rand.nextInt()};		//generating a random IV
-		
-		/* Change the path if you install the image on different path */ 
-		FileInputStream imgIn = new FileInputStream("image\\Tux.bmp");
-		FileOutputStream imgOut = new FileOutputStream("image\\CBCencrypt.bmp");
-//		FileInputStream imgIn = new FileInputStream("image\\number.txt");
-//		FileOutputStream imgOut = new FileOutputStream("image\\CBCencrypt.txt");
+
+		FileInputStream imgIn = new FileInputStream("image\\" + filename);
+		FileOutputStream imgOut = new FileOutputStream("image\\CBCencrypt" + filetype);
 
 		DataInputStream dataIn = new DataInputStream(imgIn);
 		DataOutputStream dataOut = new DataOutputStream(imgOut);
-		
-		
-		/* Skipping the first 10 blocks
-		 * each block is 64 bit. Thus, ReadInt() is applied twice
-		 * because ReadInt() return 32 bits
-		 */
-		for(int i=0;i<10;i++){
-			if(dataIn.available() > 0){
-				img[0] = dataIn.readInt();
-				img[1] = dataIn.readInt();
-				dataOut.writeInt(img[0]);
-				dataOut.writeInt(img[1]);
+
+		if (filetype.equals(".bmp")) {
+			/* Skipping the first 10 blocks
+			 * each block is 64 bit. Thus, ReadInt() is applied twice
+			 * because ReadInt() return 32 bits
+			 */
+
+			for (int i = 0; i < 10; i++) {
+				if (dataIn.available() > 0) {
+					img[0] = dataIn.readInt();
+					img[1] = dataIn.readInt();
+					dataOut.writeInt(img[0]);
+					dataOut.writeInt(img[1]);
+				}
 			}
 		}
 		
@@ -71,15 +70,17 @@ public class testCBCmode{
 		dataOut.close();
 		
 		/*~~~~~~~~~~~~~~~~~~~~~~~Decrypting the Image ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-		DataInputStream dataIn1 = new DataInputStream(new FileInputStream("image\\CBCencrypt.bmp"));
-		DataOutputStream dataOut1 = new DataOutputStream(new FileOutputStream("image\\CBCdecrypt.bmp"));
-		
-		for(int i=0;i<10;i++){
-			if(dataIn1.available() > 0){
-				img[0] = dataIn1.readInt();
-				img[1] = dataIn1.readInt();
-				dataOut1.writeInt(img[0]);
-				dataOut1.writeInt(img[1]);
+		DataInputStream dataIn1 = new DataInputStream(new FileInputStream("image\\CBCencrypt" + filetype));
+		DataOutputStream dataOut1 = new DataOutputStream(new FileOutputStream("image\\CBCdecrypt" + filetype));
+
+		if (filetype.equals(".bmp")) {
+			for (int i = 0; i < 10; i++) {
+				if (dataIn1.available() > 0) {
+					img[0] = dataIn1.readInt();
+					img[1] = dataIn1.readInt();
+					dataOut1.writeInt(img[0]);
+					dataOut1.writeInt(img[1]);
+				}
 			}
 		}
 		

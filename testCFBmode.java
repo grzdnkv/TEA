@@ -5,33 +5,34 @@ import java.io.*;
 
 public class testCFBmode {
 
-    public static void main(String[] args) throws IOException{
+    public void main(int[] key, String filetype, String filename) throws IOException{
         Random rand = new Random();
-        int[] key = {10,12,13,14};						//instantiating a key
+        //int[] key = {10,12,13,14};						//instantiating a key
         CFBmode cfb = new CFBmode(key);					//instantiating a TEA class
 
         int[] img = new int[2];
 
         int IV[] = {rand.nextInt(),rand.nextInt()};		//generating a random IV
 
-        /* Change the path if you install the image on different path */
-        FileInputStream imgIn = new FileInputStream("image\\Tux.bmp");
-        FileOutputStream imgOut = new FileOutputStream("image\\CFBencrypt.bmp");
+        FileInputStream imgIn = new FileInputStream("image\\" + filename);
+        FileOutputStream imgOut = new FileOutputStream("image\\CFBencrypt" + filetype);
 
         DataInputStream dataIn = new DataInputStream(imgIn);
         DataOutputStream dataOut = new DataOutputStream(imgOut);
 
+        if (filetype.equals(".bmp")) {
+            /* Skipping the first 10 blocks
+             * each block is 64 bit. Thus, ReadInt() is applied twice
+             * because ReadInt() return 32 bits
+             */
 
-        /* Skipping the first 10 blocks
-         * each block is 64 bit. Thus, ReadInt() is applied twice
-         * because ReadInt() return 32 bits
-         */
-        for(int i=0;i<10;i++){
-            if(dataIn.available() > 0){
-                img[0] = dataIn.readInt();
-                img[1] = dataIn.readInt();
-                dataOut.writeInt(img[0]);
-                dataOut.writeInt(img[1]);
+            for (int i = 0; i < 10; i++) {
+                if (dataIn.available() > 0) {
+                    img[0] = dataIn.readInt();
+                    img[1] = dataIn.readInt();
+                    dataOut.writeInt(img[0]);
+                    dataOut.writeInt(img[1]);
+                }
             }
         }
 
@@ -67,15 +68,17 @@ public class testCFBmode {
         dataOut.close();
 
         /*~~~~~~~~~~~~~~~~~~~~~~~Decrypting the Image ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-        DataInputStream dataIn1 = new DataInputStream(new FileInputStream("image\\CFBencrypt.bmp"));
-        DataOutputStream dataOut1 = new DataOutputStream(new FileOutputStream("image\\CFBdecrypt.bmp"));
+        DataInputStream dataIn1 = new DataInputStream(new FileInputStream("image\\CFBencrypt" + filetype));
+        DataOutputStream dataOut1 = new DataOutputStream(new FileOutputStream("image\\CFBdecrypt" + filetype));
 
-        for(int i=0;i<10;i++){
-            if(dataIn1.available() > 0){
-                img[0] = dataIn1.readInt();
-                img[1] = dataIn1.readInt();
-                dataOut1.writeInt(img[0]);
-                dataOut1.writeInt(img[1]);
+        if (filetype.equals(".bmp")) {
+            for (int i = 0; i < 10; i++) {
+                if (dataIn1.available() > 0) {
+                    img[0] = dataIn1.readInt();
+                    img[1] = dataIn1.readInt();
+                    dataOut1.writeInt(img[0]);
+                    dataOut1.writeInt(img[1]);
+                }
             }
         }
 
