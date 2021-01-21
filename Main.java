@@ -71,33 +71,46 @@ public class Main {
 
             //mode choosing
             System.out.println("Choose mode: \n1.ECB\n2.CBC\n3.CFB\n4.OFB");
+            String mode;
             answer = in.nextLine();
             switch (answer) {
                 case "1":
                     System.out.println("Working in ECB mode");
                     testECBmode ecb = new testECBmode();
                     ecb.main(key, filetype, filename);
+                    mode = "ECB";
                     break;
                 case "2":
                     System.out.println("Working in CBC mode");
                     testCBCmode cbc = new testCBCmode();
                     cbc.main(key, filetype, filename);
+                    mode = "CBC";
                     break;
                 case "3":
                     System.out.println("Working in CFB mode");
                     testCFBmode cfb = new testCFBmode();
                     cfb.main(key, filetype, filename);
+                    mode = "CFB";
                     break;
                 case "4":
                     System.out.println("Working in OFB mode");
                     testOFBmode ofb = new testOFBmode();
                     ofb.main(key, filetype, filename);
+                    mode = "OFB";
                     break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + answer);
             }
             if (answer.length() == 0){
                 throw new Exception("Wrong number of mode!");
             }
             System.out.println("All done!");
+            System.out.println("Calculate correlation and distribution of 0 and 1? (y/n): ");
+            answer = in.nextLine();
+            if (answer.equals("y")){
+                Correlation cor = new Correlation();
+                cor.main(mode, filetype, filename);
+            }
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
