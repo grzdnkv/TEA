@@ -15,9 +15,10 @@ public class testOFBmode {
         int IV[] = {rand.nextInt(),rand.nextInt()};		//generating a random IV
 
         /* Change the path if you install the image on different path */
-        FileInputStream imgIn = new FileInputStream("image\\number.txt");
-        //FileOutputStream imgOut = new FileOutputStream("image\\OFBencrypt.bmp");
-        FileOutputStream imgOut = new FileOutputStream("image\\OFBencrypt.txt");
+        FileInputStream imgIn = new FileInputStream("image\\Tux.bmp");
+        FileOutputStream imgOut = new FileOutputStream("image\\OFBencrypt.bmp");
+        //FileInputStream imgIn = new FileInputStream("image\\number.txt");
+        //FileOutputStream imgOut = new FileOutputStream("image\\OFBencrypt.txt");
 
         DataInputStream dataIn = new DataInputStream(imgIn);
         DataOutputStream dataOut = new DataOutputStream(imgOut);
@@ -27,14 +28,14 @@ public class testOFBmode {
          * each block is 64 bit. Thus, ReadInt() is applied twice
          * because ReadInt() return 32 bits
          */
-//        for(int i=0;i<10;i++){
-//            if(dataIn.available() > 0){
-//                img[0] = dataIn.readInt();
-//                img[1] = dataIn.readInt();
-//                dataOut.writeInt(img[0]);
-//                dataOut.writeInt(img[1]);
-//            }
-//        }
+        for(int i=0;i<10;i++){
+            if(dataIn.available() > 0){
+                img[0] = dataIn.readInt();
+                img[1] = dataIn.readInt();
+                dataOut.writeInt(img[0]);
+                dataOut.writeInt(img[1]);
+            }
+        }
 
 
         boolean firstTime = true;		//to know when to apply IV or the previous encrypted block
@@ -71,19 +72,19 @@ public class testOFBmode {
         dataOut.close();
 
         /*~~~~~~~~~~~~~~~~~~~~~~~Decrypting the Image ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-        //DataInputStream dataIn1 = new DataInputStream(new FileInputStream("image\\OFBencrypt.bmp"));
-        //DataOutputStream dataOut1 = new DataOutputStream(new FileOutputStream("image\\OFBdecrypt.bmp"));
-        DataInputStream dataIn1 = new DataInputStream(new FileInputStream("image\\OFBencrypt.txt"));
-        DataOutputStream dataOut1 = new DataOutputStream(new FileOutputStream("image\\OFBdecrypt.txt"));
+        DataInputStream dataIn1 = new DataInputStream(new FileInputStream("image\\OFBencrypt.bmp"));
+        DataOutputStream dataOut1 = new DataOutputStream(new FileOutputStream("image\\OFBdecrypt.bmp"));
+//        DataInputStream dataIn1 = new DataInputStream(new FileInputStream("image\\OFBencrypt.txt"));
+//        DataOutputStream dataOut1 = new DataOutputStream(new FileOutputStream("image\\OFBdecrypt.txt"));
 
-//        for(int i=0;i<10;i++){
-//            if(dataIn1.available() > 0){
-//                img[0] = dataIn1.readInt();
-//                img[1] = dataIn1.readInt();
-//                dataOut1.writeInt(img[0]);
-//                dataOut1.writeInt(img[1]);
-//            }
-//        }
+        for(int i=0;i<10;i++){
+            if(dataIn1.available() > 0){
+                img[0] = dataIn1.readInt();
+                img[1] = dataIn1.readInt();
+                dataOut1.writeInt(img[0]);
+                dataOut1.writeInt(img[1]);
+            }
+        }
 
         int[] copyCipher = new int[2];
         firstTime = true;
