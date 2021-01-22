@@ -29,7 +29,8 @@ public class Correlation {
         for (int i = 0; i < source.length; i++) {
             sourceByte = source[i] & 0xFF;
             counter = 0;
-            for (; sourceByte != 0; sourceByte = (sourceByte >>> 1)) {
+            for (int j = 0; j < 8; j++) {
+                sourceByte = (sourceByte >>> 1);
                 if ((sourceByte & 1) == 1) {
                     counter++;
                 }
@@ -48,7 +49,8 @@ public class Correlation {
         for (int i = 0; i < source.length; i++) {
             sourceByte = source[i] & 0xFF;
             counter = 0;
-            for (; sourceByte != 0; sourceByte = (sourceByte >>> 1)) {
+            for (int j = 0; j < 8; j++) {
+                sourceByte = (sourceByte >>> 1);
                 if ((sourceByte & 1) == 0) {
                     counter++;
                 }

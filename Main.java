@@ -49,7 +49,7 @@ public class Main {
             String filetype = null;
             String filename = null;
             System.out.println("Test on image of text file? (img/txt): ");
-            //answer = in.nextLine(); //programm skips 1 in.nextLine() dont know why
+            answer = in.nextLine(); //programm skips 1 in.nextLine() dont know why
             answer = in.nextLine();
             if (answer.equals("img") || answer.equals("txt")) {
                 if (answer.equals("img")) {
